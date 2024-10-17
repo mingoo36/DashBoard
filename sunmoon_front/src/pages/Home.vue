@@ -2,34 +2,36 @@
   <div>
     <Sidebar />
     <div class="main-content">
-      <h4>중대재해처벌법대응 운영솔루션</h4>
+      <h3>중대재해처벌법대응 운영솔루션</h3>
 
-      <!-- 통계 카드 섹션 -->
+      <h5 class="section-title">점검현황</h5>
       <DashboardStats />
 
-      <!-- 그래프 섹션 -->
-      <ChartContainer/>
+      <h5 class="section-title">공지사항</h5>
+      <ChartContainer />
+      <!-- 통계 카드 섹션 -->
+      <ActivityLog />
 
-      <!-- 활동 로그 섹션 -->
-      <ActivityLog/>
+
     </div>
   </div>
 </template>
 
 <script>
-//import axios from "axios";
 import {reactive} from "vue";
-import ChartContainer from "@/components/ChartContainer.vue";
-import ActivityLog from "@/components/ActivityLog.vue";
+
 import DashboardStats from "@/components/DashboardState.vue";
 import Sidebar from "@/components/Sidebar.vue";
 import axios from "axios";
+import ActivityLog from "@/components/ActivityLog.vue";
+import ChartContainer from "@/components/ChartContainer.vue";
+
 
 
 
 export default {
   name: 'Home',
-  components: {Sidebar, DashboardStats, ActivityLog, ChartContainer},
+  components: {ChartContainer, ActivityLog, Sidebar, DashboardStats},
   setup() {
     const state = reactive({
       buildings: []
@@ -48,4 +50,11 @@ export default {
   margin-left: 320px;
   padding: 20px;
 }
+.section-title {
+  font-size: 1.5rem; /* 제목 크기 조정 */
+  font-weight: bold; /* 제목 두께 조정 */
+  color: #2c3e50; /* 제목 색상 조정 */
+  margin-bottom: 15px; /* 제목과 다음 요소 간의 여백 추가 */
+}
+
 </style>

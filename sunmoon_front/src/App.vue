@@ -2,7 +2,9 @@
 <template>
   <div>
       <Sidebar />
-      <router-view />
+      <div class="main-content">
+        <router-view />
+      </div>
   </div>
 </template>
 

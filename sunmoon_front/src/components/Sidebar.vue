@@ -57,7 +57,7 @@ export default defineComponent({
         {
           title: '기준정보',
           submenu: [
-            { title: '기본정보', link: '/basic-info' },
+            { title: '공지사항', link: '/basic-info' },
             { title: '사업장관리', link: '/facility-management' }
           ]
         },
@@ -65,7 +65,7 @@ export default defineComponent({
           title: '자산관리',
           submenu: [
             { title: '자산정보관리', link: '/asset-management' },
-            { title: '시설물관리', link: '/facility-management' }
+            { title: '시설물관리', link: '/facility-mant' }
           ]
         },
         {
