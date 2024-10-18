@@ -7,6 +7,10 @@
       <h5 class="section-title">점검현황</h5>
       <DashboardStats />
 
+      <h5 class="section-title">사업장</h5>
+      <Workplace />
+
+
       <h5 class="section-title">공지사항</h5>
       <ChartContainer />
       <!-- 통계 카드 섹션 -->
@@ -25,13 +29,14 @@ import Sidebar from "@/components/Sidebar.vue";
 import axios from "axios";
 import ActivityLog from "@/components/ActivityLog.vue";
 import ChartContainer from "@/components/ChartContainer.vue";
+import Workplace from "@/components/Workplace.vue";
 
 
 
 
 export default {
   name: 'Home',
-  components: {ChartContainer, ActivityLog, Sidebar, DashboardStats},
+  components: {Workplace, ChartContainer, ActivityLog, Sidebar, DashboardStats},
   setup() {
     const state = reactive({
       buildings: []
