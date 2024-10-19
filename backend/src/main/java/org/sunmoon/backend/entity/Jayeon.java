@@ -6,8 +6,8 @@ import lombok.Getter;
 
 @Getter
 @Entity
-@Table(name = "sports_db")
-public class Sports {
+@Table(name = "jayeon_db")
+public class Jayeon {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

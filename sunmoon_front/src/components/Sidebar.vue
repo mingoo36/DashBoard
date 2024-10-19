@@ -64,7 +64,7 @@ export default defineComponent({
         {
           title: '자산관리',
           submenu: [
-            { title: '자산정보관리', link: '/asset-management' },
+            { title: '자산정보관리', link: '/Jasan-Management' },
             { title: '시설물관리', link: '/facility-mant' }
           ]
         },
