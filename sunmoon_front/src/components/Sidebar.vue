@@ -72,7 +72,7 @@ export default defineComponent({
           title: '수행',
           submenu: [
             { title: '점검', link: '/inspection' },
-            { title: '작업허가', link: '/work-permit' }
+            { title: '체크리스트', link: '/work-permit' }
           ]
         },
         {
