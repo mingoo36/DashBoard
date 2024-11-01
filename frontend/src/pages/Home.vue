@@ -2,12 +2,11 @@
   <div>
     <Sidebar />
     <div class="main-content">
-      <h3>중대재해처벌법대응 운영솔루션</h3>
 
       <h5 class="section-title">전체 점검현황</h5>
       <DashboardStats />
 
-      <h5 class="section-title">사업장 점검현황</h5>
+      <h5 class="section-title">사업장 점검 진행현황</h5>
       <Workplace />
 
 
@@ -52,7 +51,7 @@ export default {
 
 <style scoped>
 .main-content {
-  margin-left: 320px;
+  margin-left: 250px;
   padding: 20px;
 }
 .section-title {

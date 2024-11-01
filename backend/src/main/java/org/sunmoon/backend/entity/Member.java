@@ -18,6 +18,9 @@ public class Member {
 
     @Column(length = 100, nullable = false)
     private String password;
+
+    @Column(name = "name", length = 50, nullable = false)
+    private String name;
 }
 
 

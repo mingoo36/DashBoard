@@ -1,10 +1,17 @@
 <template>
-  <ul id="slide-out" class="sidenav sidenav-fixed">
+  <ul id="slide-out" class="sidenav sidenav-fixed" v-if="showSidebar">
     <li>
       <div class="user-view">
-        <router-link to="/" class="logo">
-          <img src="@/assets/logo.svg" alt="선문대학교 로고" style="width: 150px; margin-left: 40px; margin-top: 10px;" />
+        <router-link to="/home" class="logo">
+          <img src="@/assets/logo.svg" alt="선문대학교 로고" style="width: 100px; margin-left: 45px; margin-top: 10px;" />
         </router-link>
+      </div>
+    </li>
+
+    <!-- 사용자 정보 표시 -->
+    <li v-if="$store.state.account.id">
+      <div class="user-info">
+        <span style="color: white;">{{ username }}님 환영합니다!</span>
       </div>
     </li>
 
@@ -27,12 +34,11 @@
       <router-link to="/login" class="text-white" v-if="!$store.state.account.id">로그인</router-link>
       <a to="/login" class="text-white" @click="logout()" v-else>로그아웃</a>
     </li>
-
   </ul>
 </template>
 
 <script>
-import { defineComponent } from 'vue';
+import { defineComponent, computed } from 'vue';
 import router from "@/scripts/router";
 import store from "@/scripts/store";
 
@@ -40,19 +46,28 @@ export default defineComponent({
   name: 'Sidebar',
 
   setup(){
-    const logout = ()=>{
+    const logout = () => {
       store.commit('setAccount', 0);
       sessionStorage.removeItem("id");
+      sessionStorage.removeItem("name"); // name도 세션 스토리지에서 제거
       router.push({path: "/"});
-
     }
-    return {logout};
+
+    const showSidebar = computed(() => {
+      const route = router.currentRoute.value;
+      return route.meta.layout !== 'blank';
+    });
+
+    const username = computed(() => {
+      return sessionStorage.getItem("name") || ''; // 세션 스토리지에서 이름 가져오기
+    });
+
+    return { logout, showSidebar, username };
   },
 
   data() {
     return {
       activeMenu: null,
-      isLoggedIn: false, // 로그인 상태 변수
       menuItems: [
         {
           title: '기준정보',
@@ -89,26 +104,17 @@ export default defineComponent({
     toggleSubmenu(index) {
       this.activeMenu = this.activeMenu === index ? null : index;
     }
-    // logout() {
-    //   this.isLoggedIn = false;
-    // }
   }
-
-
-  // mounted() {
-  //   // 로그인 상태를 확인하는 로직 (예시)
-  //   this.isLoggedIn = false; // 실제 로그인 상태 확인 로직 추가
-  // }
-
 });
 </script>
 
 <style scoped>
 .sidenav {
   background-color: #2c3e50;
-  position: relative; /* position 설정 */
-  height: 100vh; /* 전체 높이 설정 */
-  padding-bottom: 60px; /* 하단 여백 확보 */
+  position: relative;
+  height: 100vh;
+  width: 250px;
+  padding-bottom: 60px;
 }
 
 .sidenav a {
@@ -145,40 +151,22 @@ export default defineComponent({
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-.SMN_effect-21 {
-  position: relative;
-}ㅋ
-
-.SMN_effect-21:before,
-.SMN_effect-21:after {
-  content: "";
-  width: 0;
-  height: 2px;
-  background: rgba(255, 255, 255, 0.4);
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transition: all 0.3s ease 0s;
+/* 사용자 정보 스타일 */
+.user-info {
+  padding: 10px 20px;
+  text-align: center;
+  font-size: 16px;
+  color: white; /* 사용자 정보 색상 */
 }
 
-.SMN_effect-21:after {
-  top: auto;
-  bottom: 0;
-}
-
-.SMN_effect-21:hover:before,
-.SMN_effect-21:hover:after {
-  width: 100%;
-  left: 0;
-}
-
-/* 로그인/로그아웃 섹션 스타일 - 고정 */
+/* 로그인/로그아웃 섹션 스타일 */
 .login-section {
   position: absolute;
-  bottom: 0; /* 사이드바 하단에 고정 */
+  bottom: 0;
   width: 100%;
   padding: 10px 0;
   border-top: 1px solid rgba(255, 255, 255, 0.3);
   text-align: center;
 }
 </style>
+
