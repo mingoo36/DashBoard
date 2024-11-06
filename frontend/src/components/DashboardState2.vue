@@ -8,11 +8,11 @@
         </div>
         <div class="legend-item">
           <span class="legend-label">점검:</span>
-          <span class="legend-value">{{ checked }}</span>
+          <span class="legend-value">{{ unchecked }}</span>
         </div>
         <div class="legend-item">
-          <span class="legend-label">미점검: </span>
-          <span class="legend-value">{{ unchecked }}</span>
+          <span class="legend-label">미점검:</span>
+          <span class="legend-value">{{ checked }}</span>
         </div>
       </div>
       <div class="donut-chart" :style="{ background: getDonutGradient(checkRate) }">
@@ -75,7 +75,7 @@ export default {
 
     const checked = computed(() => {
       return Object.values(state.assets).reduce((acc, assets) => {
-        return acc + assets.filter(asset => asset.c7 === "점검").length;
+        return acc + assets.filter(asset => asset.c7 === "미점검").length+1;
       }, 0);
     });
 
@@ -87,7 +87,7 @@ export default {
     });
 
     const getDonutGradient = (rate) => {
-      return `conic-gradient(#4F98FF 0 ${rate}%, #DEDEDE ${rate}% 100%)`;
+      return `conic-gradient(#fdbcb4 0 ${rate}%, #DEDEDE ${rate}% 100%)`;
     };
 
     onMounted(() => {
@@ -149,6 +149,7 @@ export default {
   transform: translate(-50%, -50%); /* 중앙 정렬 */
 }
 
+
 .percentage-text {
   position: absolute;
   font-size: 24px;
@@ -176,3 +177,9 @@ export default {
   color: #333;
 }
 </style>
+
+
+
+
+
+
