@@ -10,7 +10,7 @@
         </div>
 
         <div class="dashboard-item">
-          <h5 class="section-title">내용 미정</h5>
+          <h5 class="section-title">사업장 위치</h5>
           <DashboardStats2 />
         </div>
       </div>

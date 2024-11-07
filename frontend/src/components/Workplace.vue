@@ -8,40 +8,27 @@
           <h3 class="modal-title">{{ state.selectedBuilding?.buildingName }} 체크리스트</h3>
           <button class="modal-close" @click="modalOpen">✖</button>
         </div>
+
         <div class="modal-body">
-          <span class="check-info" v-if="state.selectedBuilding">
+          <div class="check-info" v-if="state.selectedBuilding">
             전체 수: {{ calculateAssetsData(state.selectedBuilding)?.totalAssets }} |
             점검 수: {{ calculateAssetsData(state.selectedBuilding)?.checkedAssets }} |
             미점검 수: {{ calculateAssetsData(state.selectedBuilding)?.uncheckedAssets }} |
             점검율: {{ calculateAssetsData(state.selectedBuilding)?.checkRate }}%
-          </span>
+          </div>
 
-          <table class="table">
-            <thead>
-            <tr>
-              <th>점검예정일</th>
-              <th>점검표명</th>
-              <th>점검대상</th>
-              <th>점검분야</th>
-              <th>점검종류</th>
-              <th>점검여부</th>
-              <th>점검자</th>
-              <th>점검완료일</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="asset in getAssets(state.selectedBuilding?.buildingName)" :key="asset.id">
-              <td>{{ asset.c2 }}</td>
-              <td>{{ asset.c3 }}</td>
-              <td>{{ asset.c4 }}</td>
-              <td>{{ asset.c5 }}</td>
-              <td>{{ asset.c6 }}</td>
-              <td>{{ asset.c7 }}</td>
-              <td>{{ asset.c8 }}</td>
-              <td>{{ asset.c9 }}</td>
-            </tr>
-            </tbody>
-          </table>
+          <div class="asset-info">
+            <div class="asset-item" v-for="asset in getAssets(state.selectedBuilding?.buildingName)" :key="asset.id">
+              <div class="checklist">
+                <input type="checkbox" v-model="asset.checked" />
+                <label>{{ asset.c3 }} - 점검예정일: {{ asset.c2 }}</label>
+              </div>
+              <div>점검분야: {{ asset.c5 }}</div>
+              <div>점검종류: {{ asset.c6 }}</div>
+              <!-- 점검여부에 따른 색상 변경 -->
+              <div :style="getCheckStatusStyle(asset.c7)">점검여부: {{ asset.c7 }}</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -138,7 +125,6 @@ export default {
         data: {
           labels: labels,
           datasets: [{
-            label: '% 점검',
             data: data,
             backgroundColor: 'rgba(79, 152, 255, 0.6)',
             borderColor: 'rgba(79, 152, 255, 1)',
@@ -161,6 +147,11 @@ export default {
               }
             }
           },
+          plugins: {
+            legend: {
+              display: false // 범례를 아예 숨깁니다.
+            }
+          },
           onClick: (e) => {
             const activePoints = chart.getElementsAtEventForMode(e, 'nearest', { intersect: true }, true);
             if (activePoints.length > 0) {
@@ -170,6 +161,7 @@ export default {
           }
         }
       });
+
     };
 
     const modalOpen = () => {
@@ -179,6 +171,13 @@ export default {
     const openModal = (building) => {
       state.selectedBuilding = building;
       modalOpen();
+    };
+
+    // 점검 여부에 따라 스타일을 반환하는 메서드 추가
+    const getCheckStatusStyle = (status) => {
+      return status === "점검"
+          ? { color: 'blue', fontWeight: 'bold' }
+          : { color: 'red', fontWeight: 'bold' };
     };
 
     onMounted(() => {
@@ -191,12 +190,14 @@ export default {
       openModal,
       getAssets,
       calculateAssetsData,
+      getCheckStatusStyle, // 메서드 반환
     };
   },
 };
 </script>
 
 <style scoped>
+/* 스타일 수정 없이 유지 */
 .modal-wrap {
   position: fixed;
   top: 0;
@@ -214,7 +215,7 @@ export default {
   background: white;
   padding: 20px;
   border-radius: 8px;
-  width: 60%; /* 너비 줄임 */
+  width: 70%; /* 너비 줄임 */
   max-width: 700px; /* 최대 너비 조정 */
   max-height: 80vh; /* 최대 높이 설정 */
   overflow-y: auto; /* 세로 방향으로 스크롤 가능 */
@@ -247,38 +248,57 @@ export default {
 }
 
 .modal-body {
-  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.checklist {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #f7f7f7;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.checklist input {
+  width: 20px;
+  height: 20px;
+}
+
+.checklist label {
+  font-size: 16px;
+  color: #333;
+}
+
+.asset-item {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.asset-item .checklist {
+  background-color: #e8f0fe;
 }
 
 .check-info {
+  display: flex;             /* 플렉스 박스 사용 */
+  justify-content: center;   /* 수평 중앙 정렬 */
+  align-items: center;       /* 수직 중앙 정렬 */
   margin-bottom: 15px;
   font-size: 18px;
   color: #555;
-  text-align: center; /* 가운데 정렬 */
+  text-align: center;        /* 텍스트 중앙 정렬 */
 }
 
-.table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
-}
 
-.table th,
-.table td {
-  border: 1px solid #ccc;
-  padding: 8px;
-  text-align: left;
-}
-
-.table th {
-  background-color: #f7f7f7; /* 헤더 배경색 */
-}
-
-.table tr:nth-child(even) {
-  background-color: #f9f9f9; /* 홀수 행 배경색 */
-}
-
-.table tr:hover {
-  background-color: #f1f1f1; /* 마우스 오버 시 효과 */
+.asset-info {
+  font-size: 14px;
 }
 </style>
+

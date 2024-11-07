@@ -116,11 +116,12 @@ export default {
 .stats-container {
   display: flex; /* 수평 배치 */
   align-items: center; /* 세로 중앙 정렬 */
+  justify-content: flex-start; /* 왼쪽 정렬 (기본값: center에서 왼쪽으로 이동) */
 }
 
 .donut-chart {
-  width: 150px;
-  height: 150px;
+  width: 180px;
+  height: 180px;
   border-radius: 50%;
   display: flex;
   align-items: center;

@@ -3,7 +3,7 @@
     <li>
       <div class="user-view">
         <router-link to="/home" class="logo">
-          <img src="@/assets/logo.svg" alt="선문대학교 로고" style="width: 100px; margin-left: 45px; margin-top: 10px;" />
+          <img src="@/assets/logo2.png" alt="선문대학교 로고" style="width: 150px; margin-left: 18px;" />
         </router-link>
       </div>
     </li>
